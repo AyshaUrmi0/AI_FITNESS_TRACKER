@@ -2,7 +2,7 @@ import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
 import Chat from "./pages/Chat";
 import Workout from "./pages/Workout";
-import Diet from "./pages/Diet";
+import Diet from "./pages/diet";
 
 const router = createBrowserRouter([
   {
