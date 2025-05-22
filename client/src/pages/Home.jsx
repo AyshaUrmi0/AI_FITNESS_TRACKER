@@ -1,4 +1,5 @@
-import FloatingAssistant from "../components/FloatingAssistant";
+import ChatContainer from "../components/ChatContainer";
+
 
 export default function Home() {
   return (
@@ -7,7 +8,7 @@ export default function Home() {
       <p className="text-center mb-4">Your fitness companion with voice support!</p>
 
       {/* Floating voice assistant button */}
-      <FloatingAssistant />
+      <ChatContainer />
     </div>
   );
 }
