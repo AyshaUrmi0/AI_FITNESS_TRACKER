@@ -5,7 +5,7 @@ const ChatContainer = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen  px-4 py-6 sm:py-12">
       <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
-        <div className="p-4 bg-blue-600 text-white">
+        <div className="p-4 bg-orange-500 text-white">
           <h1 className="text-xl sm:text-2xl font-bold text-center">AI Fitness Coach</h1>
         </div>
         <div className="p-4">
