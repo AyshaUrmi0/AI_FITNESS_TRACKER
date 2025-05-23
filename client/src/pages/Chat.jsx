@@ -1,8 +1,8 @@
 
 
 export default function Chat() {
-    return <div className="p-6">
-
+    return <div className="">
+        <title>Chat | FitnessAI</title>
 
     </div>;
   }

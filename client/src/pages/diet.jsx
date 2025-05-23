@@ -1,6 +1,7 @@
 export default function Diet() {
   return (
       <div className="p-4 md:p-6 text-black min-h-screen ">
+         <title>Diet| FitnessAI</title>
           <div className="max-w-[1200px] mx-auto w-full">
               <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">
                   Meal Analysis & Workout Suggestions
