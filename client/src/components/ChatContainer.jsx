@@ -1,117 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import MessageHistory from './MessageHistory';
-import TextInput from './TextInput';
-import VoiceInput from './VoiceInput';
-import ModeToggle from './ModeToggle';
-import { sendMessage, checkServerHealth } from '../utils/api';
+import React from 'react';
+import { HF_CHATBOT_URL } from '../utils/api';
 
 const ChatContainer = () => {
-  const [messages, setMessages] = useState([]);
-  const [inputMode, setInputMode] = useState('text'); // 'text' or 'voice'
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [isServerHealthy, setIsServerHealthy] = useState(true);
-  const userId = 1; // Placeholder user ID
-
-  // Check server health on component mount
-  useEffect(() => {
-    const checkHealth = async () => {
-      try {
-        await checkServerHealth();
-        setIsServerHealthy(true);
-        setError(null);
-      } catch (err) {
-        console.error('Server health check failed:', err);
-        setIsServerHealthy(false);
-        setError('Unable to connect to the server. Please try again later.');
-      }
-    };
-    checkHealth();
-  }, []);
-
-  const handleSend = async (content) => {
-    if (!content.trim()) return;
-    if (!isServerHealthy) {
-      setError('Server is not available. Please try again later.');
-      return;
-    }
-
-    // Add user message
-    const userMessage = {
-      user: 'human',
-      content,
-      mode: inputMode,
-      timestamp: new Date().toISOString(),
-    };
-    setMessages((prev) => [...prev, userMessage]);
-
-    // Call backend API
-    setIsLoading(true);
-    setError(null);
-    
-    try {
-      const data = await sendMessage({ input: content, userId, mode: inputMode });
-      const aiMessage = {
-        user: 'ai',
-        content: data.response,
-        mode: 'text',
-        timestamp: new Date().toISOString(),
-      };
-      setMessages((prev) => [...prev, aiMessage]);
-
-      // Optional: Text-to-Speech for AI response
-      if ('speechSynthesis' in window) {
-        const utterance = new SpeechSynthesisUtterance(data.response);
-        window.speechSynthesis.speak(utterance);
-      }
-    } catch (error) {
-      console.error('Error sending message:', error);
-      setError(error.message || 'Failed to get response from AI');
-      
-      // Add error message to chat
-      const errorMessage = {
-        user: 'system',
-        content: 'Sorry, I encountered an error. Please try again.',
-        mode: 'text',
-        timestamp: new Date().toISOString(),
-        isError: true
-      };
-      setMessages((prev) => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
   return (
-    <div className="chat-container max-w-2xl mx-auto p-4">
-      {error && (
-        <div className="mb-4 p-3 bg-red-100 text-red-700 rounded-lg">
-          {error}
-          <button
-            onClick={() => setError(null)}
-            className="float-right text-sm underline"
-          >
-            Dismiss
-          </button>
+    <div className="flex flex-col items-center justify-center min-h-screen  px-4 py-6 sm:py-12">
+      <div className="w-full max-w-4xl bg-white rounded-lg shadow-lg overflow-hidden">
+        <div className="p-4 bg-blue-600 text-white">
+          <h1 className="text-xl sm:text-2xl font-bold text-center">AI Fitness Coach</h1>
         </div>
-      )}
-      
-      <MessageHistory messages={messages} />
-      
-      <div className="mt-4">
-        <ModeToggle inputMode={inputMode} setInputMode={setInputMode} />
-        
-        {isLoading ? (
-          <div className="text-center py-4">
-            <div className="animate-pulse">AI is thinking...</div>
+        <div className="p-4">
+          <div className="w-full">
+            <iframe
+              src={HF_CHATBOT_URL}
+              className="w-full h-[400px] sm:h-[500px] md:h-[600px] border-0 rounded-lg"
+              title="AI Fitness Coach Chatbot"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+            />
           </div>
-        ) : (
-          inputMode === 'text' ? (
-            <TextInput onSend={handleSend} disabled={!isServerHealthy} />
-          ) : (
-            <VoiceInput onSend={handleSend} disabled={!isServerHealthy} />
-          )
-        )}
+        </div>
       </div>
     </div>
   );

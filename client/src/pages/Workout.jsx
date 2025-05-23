@@ -1,4 +1,8 @@
+import ChatContainer from '../components/ChatContainer';
+
 export default function Workout() {
-    return <div className="p-6">Workout Planner Coming Soon...</div>;
+    return <div className="">
+    <ChatContainer />
+    </div>;
   }
   

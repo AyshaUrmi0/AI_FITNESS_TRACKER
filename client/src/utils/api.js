@@ -1,40 +1,10 @@
-const API_BASE_URL = 'http://localhost:5000/api';
+// This file is kept for future database integration
+// For now, we're using the HuggingFace chatbot iframe directly in the UI
+export const HF_CHATBOT_URL = 'https://vagabond99-fitness-chat-bot.hf.space';
 
-async function handleResponse(response) {
-  const data = await response.json();
-  if (!response.ok) {
-    throw new Error(data.error || data.message || 'Failed to send message');
-  }
-  return data;
-}
-
-export async function sendMessage({ input, userId, mode }) {
-  try {
-    console.log('Sending message:', { input, userId, mode });
-    
-    const response = await fetch(`${API_BASE_URL}/chat`, {
-      method: 'POST',
-      headers: { 
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({ input, userId, mode }),
-    });
-
-    return await handleResponse(response);
-  } catch (error) {
-    console.error('Error sending message:', error);
-    throw error;
-  }
-}
-
-// Health check function
-export async function checkServerHealth() {
-  try {
-    const response = await fetch(`${API_BASE_URL}/health`);
-    return await handleResponse(response);
-  } catch (error) {
-    console.error('Server health check failed:', error);
-    throw error;
-  }
+// This function will be used later for database integration
+export async function storeMessage(userId, message, response) {
+  // To be implemented when we add the database
+  console.log('Message storage will be implemented with database integration');
+  return Promise.resolve();
 }
